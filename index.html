@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سطور نصر | عالم الروايات</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- قسم الجمالية (CSS) --- */
+        body { 
+            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); 
+            color: #f0f0f0; 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; padding: 0;
+            line-height: 1.8;
+        }
+
+        header { 
+            background: rgba(26, 26, 26, 0.9);
+            padding: 60px 20px; text-align: center;
+            border-bottom: 3px solid #d4af37;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        }
+
+        h1 { color: #d4af37; font-size: 3.5rem; margin: 0; text-shadow: 2px 2px 15px rgba(212, 175, 55, 0.4); }
+
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
+
+        .novel-card { 
+            background: #1e1e1e; 
+            margin-bottom: 35px; 
+            padding: 30px; 
+            border-radius: 20px; 
+            border-right: 10px solid #d4af37;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            transition: 0.5s ease;
+            position: relative;
+        }
+
+        .novel-card:hover { 
+            transform: translateY(-10px); 
+            background: #282828;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .novel-card h2 { color: #ffffff; margin-top: 0; }
+        .novel-card h2::before { content: "📖 "; color: #d4af37; }
+
+        .btn { 
+            display: inline-block; 
+            padding: 12px 35px; 
+            background: linear-gradient(45deg, #d4af37, #f2d06b); 
+            color: #000 !important; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: bold;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn:hover { letter-spacing: 1px; transform: scale(1.05); }
+
+        footer { 
+            text-align: center; padding: 50px; 
+            background: #111; margin-top: 60px;
+            border-top: 1px solid #333;
+        }
+
+        .insta-link { color: #d4af37; text-decoration: none; font-weight: bold; font-size: 1.2rem; }
+        
+        /* تأثير الظهور الناعم */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .novel-card { animation: fadeIn 1s ease-out; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>سطور نصر</h1>
+    <p style="color: #888;">مرحباً بكم في عالمي، حيث تجتمع الكلمات لتروي الحكايا</p>
+</header>
+
+<div class="container">
+    <div class="novel-card">
+        <h2>خوارزمية الإنتقام</h2>
+        <a href="https://drive.google.com/file/d/1XNC3vimkI7upOWxVdsq36_WVK7PN4hO0/view?usp=drive_link" target="_blank" class="btn">ابدأ القراءة الآن</a>
+    </div>
+
+    <div class="novel-card">
+        <h2>عالم فاو</h2>
+        <a href="https://drive.google.com/file/d/1TyMl2Mz2r2I5fnesT9h1VNoSI4Oh7n9-/view?usp=drive_link" target="_blank" class="btn">اقرأ الفصل الجديد</a>
+    </div>
+</div>
+
+<footer>
+    <p>جميع الحقوق محفوظة لـ <strong>سطور نصر</strong> © 2026</p>
+    <p>تواصل معي عبر انستقرام: 
+        <a href="https://instagram.com/nasr_gz" target="_blank" class="insta-link">@nasr_gz</a>
+    </p>
+</footer>
+
+</body>
+</html>
