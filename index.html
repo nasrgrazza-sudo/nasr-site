@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- قسم الجمالية (CSS) --- */
         body { 
             background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); 
             color: #f0f0f0; 
@@ -71,7 +70,6 @@
 
         .insta-link { color: #d4af37; text-decoration: none; font-weight: bold; font-size: 1.2rem; }
         
-        /* تأثير الظهور الناعم */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -80,10 +78,111 @@
     </style>
 </head>
 <body>
+    <div class="view-controls">
+    <button onclick="setView('grid')">🔲 مربعات</button>
+    <button onclick="setView('list')">🗒️ قائمة</button>
+    <button onclick="toggleTheme()" id="theme-btn">🌙 وضع الليل</button>
+    <button onclick="shareSite()">📤 مشاركة الموقع</button> 
+</div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="falling-books-container"></div>
+<script>
+window.onscroll = function() {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
+    document.getElementById("progress-bar").style.width = scrolled + "%";
+    
+    const cards = document.querySelectorAll('.novel-card');
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if(cardTop < window.innerHeight - 100) {
+            card.classList.add('visible');
+        }
+    });
+};
 
+const text = "مرحباً بكم في عالمي، حيث تجتمع الكلمات لتروي الحكايا...";
+let i = 0;
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("typing-effect").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+    }
+}
+
+window.addEventListener('load', () => {
+    typeWriter();
+    setTimeout(() => window.dispatchEvent(new Event('scroll')), 500);
+});
+
+function shareSite() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'سطور نصر',
+            text: 'اكتشف عالم الروايات المذهل',
+            url: window.location.href
+        });
+    } else {
+        alert("انسخ الرابط وشاركه مع أصدقائك!");
+    }
+}
+    function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('theme-btn');
+    
+    body.classList.toggle('light-mode');
+    
+    if (body.classList.contains('light-mode')) {
+        btn.innerText = "☀️ وضع النهار";
+    } else {
+        btn.innerText = "🌙 وضع الليل";
+    }
+}
+    function setView(viewType) {
+    const container = document.querySelector('.container');
+    if (viewType === 'grid') {
+        container.classList.add('grid-view');
+    } else {
+        container.classList.remove('grid-view');
+    }
+}
+    const container = document.getElementById('falling-books-container');
+    const bookEmojis = ['📖', '📜', '📚', '🖋️'];
+
+    function createBook() {
+        const book = document.createElement('div');
+        book.classList.add('book-particle');
+        
+        book.innerText = bookEmojis[Math.floor(Math.random() * bookEmojis.length)];
+        book.style.left = Math.random() * 100 + "vw";
+        
+        const duration = Math.random() * 5 + 5; 
+        const size = Math.random() * 20 + 15; 
+        
+        book.style.animationDuration = duration + "s";
+        book.style.fontSize = size + "px";
+        book.style.opacity = Math.random() * 0.5 + 0.2;
+
+        container.appendChild(book);
+
+        setTimeout(() => {
+            book.remove();
+        }, duration * 1000);
+    }
+
+    setInterval(createBook, 500);
+</script>
 <header>
+    <button onclick="toggleTheme()" id="theme-btn">🌙 وضع الليل</button>
+    <div class="view-controls">
+    <button onclick="setView('grid')">🔲 مربعات</button>
+    <button onclick="setView('list')">🗒️ قائمة</button>
+</div>
     <h1>سطور نصر</h1>
-    <p style="color: #888;">مرحباً بكم في عالمي، حيث تجتمع الكلمات لتروي الحكايا</p>
+    <p style="color: #888;">مرحباً بكم في عالمي، حيث تجتمع الكلمات لتروي الحكايات</p>
+    <p id="typing-effect" class="typing-text" style="color: #888; min-height: 1.8em;"></p>
 </header>
 
 <div class="container">
@@ -104,6 +203,152 @@
         <a href="https://instagram.com/nasr_gz" target="_blank" class="insta-link">@nasr_gz</a>
     </p>
 </footer>
+ <style>
+.novel-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+    backdrop-filter: blur(5px);
+    background: rgba(30, 30, 30, 0.8) !important;
+}
+
+.novel-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.novel-card:hover {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.6) !important;
+    border-right-width: 15px !important;
+}
+
+#progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    z-index: 9999;
+}
+#progress-bar {
+    height: 100%;
+    background: linear-gradient(to left, #d4af37, #f2d06b);
+    width: 0%;
+}
+
+.typing-text::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.insta-link {
+    position: relative;
+    transition: 0.3s;
+}
+.insta-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    right: 0;
+    background-color: #d4af37;
+    transition: width 0.3s ease;
+}
+.insta-link:hover::after { width: 100%; }
+body.light-mode {
+    background: radial-gradient(circle, #ffffff 0%, #e0e0e0 100%);
+    color: #1a1a1a;
+}
+
+body.light-mode header {
+    background: rgba(240, 240, 240, 0.9);
+    border-bottom: 3px solid #b8860b;
+}
+
+body.light-mode .novel-card {
+    background: #ffffff;
+    color: #333;
+    border-right: 10px solid #b8860b;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+}
+
+body.light-mode .novel-card h2 {
+    color: #000;
+}
+
+body.light-mode footer {
+    background: #eeeeee;
+    color: #444;
+}
+    .view-controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.view-controls button {
+    background: #1e1e1e;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+.view-controls button:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.container.grid-view {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.grid-view .novel-card {
+    width: 300px;
+    margin: 10px;
+}
+  
+#falling-books-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    z-index: -1;
+    overflow: hidden;
+}
+
+.book-particle {
+    position: absolute;
+    color: rgba(212, 175, 55, 0.4);
+    font-size: 24px;
+    user-select: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+ </style>
 
 </body>
 </html>
